@@ -3,15 +3,6 @@
 #include <string.h>
 #include <ctype.h>
 
-/*
- * Você não precisa entender o código dessa função.
- *
- * Use essa função para comparação no run.codes.
- * Lembre-se de ter fechado (fclose) o arquivo anteriormente.
- *
- * Ela vai abrir de novo para leitura e depois fechar
- * (você não vai perder pontos por isso se usar ela).
- */
 void BinarioNaTela(char *arquivo) {
     FILE *fs;
     if (arquivo == NULL || !(fs = fopen(arquivo, "rb"))) {
@@ -42,17 +33,8 @@ void BinarioNaTela(char *arquivo) {
 }
 
 /*
- *	Use essa função para ler um campo string delimitado entre aspas (").
- *	Chame ela na hora que for ler tal campo. Por exemplo:
- *
- *	A entrada está da seguinte forma:
- *		nomeDoCampo "MARIA DA SILVA"
- *
- *	Para ler isso para as strings já alocadas str1 e str2 do seu programa,
- * você faz: scanf("%s", str1); // Vai salvar nomeDoCampo em str1
- *		scan_quote_string(str2); // Vai salvar MARIA DA SILVA em str2
- * (sem as aspas)
- *
+ *	Função para ler um campo string delimitado entre aspas (").
+ *	Strings já alocadas str1 e str2 do programa.
  */
 void ScanQuoteString(char *str) {
     char R;
@@ -70,9 +52,7 @@ void ScanQuoteString(char *str) {
             strcpy(str, "");
         }
         getchar();         // ignorar aspas fechando
-    } else if (R != EOF) { // vc tá tentando ler uma string que não tá entre
-                           // aspas! Fazer leitura normal %s então, pois deve
-                           // ser algum inteiro ou algo assim...
+    } else if (R != EOF) { // LEITURA DE uma string que não tá entre ÁSPAS
         str[0] = R;
         scanf("%s", &str[1]);
     } else { // EOF
