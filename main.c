@@ -17,21 +17,26 @@
 int main(void) {
     int funcionalidade;
     char arquivo[TAM_ARQUIVO];
+    char indice[TAM_ARQUIVO];   /* arquivo de indice (nao utilizado: o indice
+                                 * codigo->nome e reconstruido em memoria a
+                                 * partir do proprio arquivo de dados) */
 
     /* a primeira entrada da entrada padrao e sempre o identificador */
     if (scanf("%d", &funcionalidade) != 1) return 0;
 
     switch (funcionalidade) {
         case 10:
-            /* [10] arquivoEntrada.bin */
+            /* [10] arquivoEntrada.bin arquivoIndice.bin */
             if (scanf("%255s", arquivo) != 1) return 0;
+            if (scanf("%255s", indice) != 1) return 0;
             funcionalidade10(arquivo);
             break;
 
         case 11:
-            /* [11] arquivoEntrada.bin nomeEstacaoOrigem "Origem"
-             *      nomeEstacaoDestino "Destino" */
+            /* [11] arquivoEntrada.bin arquivoIndice.bin
+             *      nomeEstacaoOrigem "Origem" nomeEstacaoDestino "Destino" */
             if (scanf("%255s", arquivo) != 1) return 0;
+            if (scanf("%255s", indice) != 1) return 0;
             funcionalidade11(arquivo);
             break;
 

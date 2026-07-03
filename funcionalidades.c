@@ -46,11 +46,13 @@ void funcionalidade10(const char *arquivo) {
     for (i = 0; i < n; i++) {
         int numArestas;
 
+        numArestas = grafoGetNumArestas(g, i);
+        if (numArestas == 0) continue;
+
         /* nome do vertice (primeiro valor da linha) */
         printf("%s", grafoGetNomeVertice(g, i));
 
         /* lista de adjacencias, ja ordenada por destino e por linha */
-        numArestas = grafoGetNumArestas(g, i);
         for (j = 0; j < numArestas; j++) {
             const Aresta *a = grafoGetAresta(g, i, j);
             int numLinhas = arestaGetNumLinhas(a);

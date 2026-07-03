@@ -146,14 +146,34 @@ Grafo *construirGrafo(const char *nomeArquivo) {
     }
     qsort(idx, nReg, sizeof(ParCodNome), cmpParCod);
 
-    /* 4. criacao do grafo e insercao dos vertices (o TAD deduplica nomes) */
+    /* 4. criacao do grafo e coleta dos vertices necessarios (origem + destinos).
+     * faz dois passes: primeiro insere todos os vertices que participam de arestas,
+     * depois insere as arestas (o TAD deduplica nomes automaticamente) */
     g = grafoCriar(nReg > 0 ? nReg : 8);
     if (!g) { free(idx); free(regs); return NULL; }
+
+    /* primeiro pass: insere os vertices necessarios (origem + todos os destinos) */
     for (i = 0; i < nReg; i++) {
-        grafoInserirVertice(g, regs[i].nomeEstacao);
+        RegistroEstacao *r = &regs[i];
+        const char *nomeProx, *nomeIntegra;
+
+        /* insere o vertice de origem */
+        grafoInserirVertice(g, r->nomeEstacao);
+
+        /* insere o vertice de destino da proxima estacao (se existir) */
+        nomeProx = resolveNome(idx, nReg, r->codProxEstacao);
+        if (nomeProx) {
+            grafoInserirVertice(g, nomeProx);
+        }
+
+        /* insere o vertice de destino de integracao (se existir e for diferente) */
+        nomeIntegra = resolveNome(idx, nReg, r->codEstacaoIntegra);
+        if (nomeIntegra && strcmp(r->nomeEstacao, nomeIntegra) != 0) {
+            grafoInserirVertice(g, nomeIntegra);
+        }
     }
 
-    /* 5. insercao das arestas */
+    /* segundo pass: insere as arestas */
     for (i = 0; i < nReg; i++) {
         RegistroEstacao *r = &regs[i];
         const char *nomeProx, *nomeIntegra;
